@@ -1,0 +1,14 @@
+Data Definitions
+ CONST INT MAX_ASSETS = 100
+
+ STRUCT ASSETS
+  INT assetID
+  STRING assetName
+  String assetType
+  REAL purchaseValue
+  STRING department
+  STRING condition
+ END STRUCT
+
+Add Assets
+ FUNCTION addAssets(
