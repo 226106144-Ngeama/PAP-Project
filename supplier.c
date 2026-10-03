@@ -2,7 +2,6 @@
 #include <string.h>
 #include "suppliers.h"
 
-// Global array to store suppliers and a counter
 Supplier supplierList[MAX_SUPPLIERS];
 int supplierCount = 0;
 
@@ -46,20 +45,16 @@ void addSupplier() {
         printf("Error: Name cannot be empty.\n");
         return;
     }
-
-    // 3. Get Email
+ 
     printf("Enter Email: ");
     scanf(" %[^\n]", supplierList[supplierCount].email);
 
-    // 4. Get Telephone
     printf("Enter Telephone: ");
     scanf(" %[^\n]", supplierList[supplierCount].telephone);
 
-    // 5. Get Town
     printf("Enter Town/Location: ");
     scanf(" %[^\n]", supplierList[supplierCount].town);
 
-    // Increment counter and save
     supplierCount++;
     printf("Success: Supplier added successfully!\n");
 }
