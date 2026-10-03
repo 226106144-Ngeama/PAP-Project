@@ -2,10 +2,12 @@
 #include <string.h>
 #include "suppliers.h"
 
+
 Supplier supplierList[MAX_SUPPLIERS];
 int supplierCount = 0;
 
 void addSupplier() {
+    
     if (supplierCount >= MAX_SUPPLIERS) {
         printf("\nError: System is full. Cannot add more suppliers.\n");
         return;
@@ -15,7 +17,6 @@ void addSupplier() {
     int newID;
     int duplicate = 0;
 
-    // 1. Get and validate Supplier ID
     printf("Enter Supplier ID (positive number): ");
     scanf("%d", &newID);
 
@@ -24,7 +25,6 @@ void addSupplier() {
         return;
     }
 
-    // Check for duplicate ID
     for (int i = 0; i < supplierCount; i++) {
         if (supplierList[i].supplierID == newID) {
             duplicate = 1;
@@ -38,14 +38,15 @@ void addSupplier() {
 
     supplierList[supplierCount].supplierID = newID;
 
-    // 2. Get and validate Name
     printf("Enter Supplier Name: ");
-    scanf(" %[^\n]", supplierList[supplierCount].name);
+    scanf(" %[^\n]", supplierList[supplierCount].name); // Reads spaces
+    
+    // Using strlen() for validation
     if (strlen(supplierList[supplierCount].name) == 0) {
         printf("Error: Name cannot be empty.\n");
         return;
     }
- 
+
     printf("Enter Email: ");
     scanf(" %[^\n]", supplierList[supplierCount].email);
 
@@ -83,27 +84,56 @@ void searchSupplier() {
         return;
     }
 
-    int searchID;
+    int choice;
     int found = 0;
 
     printf("\n--- Search Supplier ---\n");
-    printf("Enter Supplier ID to search: ");
-    scanf("%d", &searchID);
+    printf("1. Search by ID\n");
+    printf("2. Search by Name\n");
+    printf("Enter your choice: ");
+    scanf("%d", &choice);
 
-    for (int i = 0; i < supplierCount; i++) {
-        if (supplierList[i].supplierID == searchID) {
-            printf("\nSupplier Found!\n");
-            printf("ID: %d\n", supplierList[i].supplierID);
-            printf("Name: %s\n", supplierList[i].name);
-            printf("Email: %s\n", supplierList[i].email);
-            printf("Telephone: %s\n", supplierList[i].telephone);
-            printf("Town: %s\n", supplierList[i].town);
-            found = 1;
-            break;
+    if (choice == 1) {
+        // --- SEARCH BY ID ---
+        int searchID;
+        printf("Enter Supplier ID to search: ");
+        scanf("%d", &searchID);
+
+        for (int i = 0; i < supplierCount; i++) {
+            if (supplierList[i].supplierID == searchID) {
+                printf("\nSupplier Found!\n");
+                printf("ID: %d\nName: %s\nEmail: %s\nPhone: %s\nTown: %s\n",
+                       supplierList[i].supplierID, supplierList[i].name,
+                       supplierList[i].email, supplierList[i].telephone,
+                       supplierList[i].town);
+                found = 1;
+                break;
+            }
         }
+    } else if (choice == 2) {
+        // --- SEARCH BY NAME (Uses strcmp) ---
+        char searchName[100];
+        printf("Enter Supplier Name to search: ");
+        scanf(" %[^\n]", searchName);
+
+        for (int i = 0; i < supplierCount; i++) {
+            // USING strcmp() HERE: Returns 0 if strings are identical
+            if (strcmp(supplierList[i].name, searchName) == 0) {
+                printf("\nSupplier Found!\n");
+                printf("ID: %d\nName: %s\nEmail: %s\nPhone: %s\nTown: %s\n",
+                       supplierList[i].supplierID, supplierList[i].name,
+                       supplierList[i].email, supplierList[i].telephone,
+                       supplierList[i].town);
+                found = 1;
+                break; 
+            }
+        }
+    } else {
+        printf("Invalid search choice.\n");
+        return;
     }
 
     if (!found) {
-        printf("Error: Supplier with ID %d not found.\n", searchID);
+        printf("Error: Supplier not found.\n");
     }
 }
