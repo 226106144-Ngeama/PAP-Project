@@ -14,7 +14,7 @@ char departments[NUM_DEPARTMENTS][30] = {
 float budgets[NUM_DEPARTMENTS] = {0};
 float expenditures[NUM_DEPARTMENTS] = {0};
 
-void enterFinances()
+void enterFinances(void)
 {
     int choice;
     int index;
@@ -40,7 +40,6 @@ void enterFinances()
 
     printf("\nDepartment: %s\n", departments[index]);
 
-   
     printf("Enter Allocated Budget: N$");
     scanf("%f", &budgets[index]);
 
@@ -51,7 +50,6 @@ void enterFinances()
         scanf("%f", &budgets[index]);
     }
 
- 
     printf("Enter Expenditure: N$");
     scanf("%f", &expenditures[index]);
 
@@ -82,15 +80,14 @@ void enterFinances()
     printf("Department finances saved.\n");
 }
 
-
-
-void displayDepartments()
+void displayDepartments(void)
 {
     float remainingBudget;
+    int i;
 
     printf("\n--- ALL DEPARTMENT BUDGETS ---\n");
 
-    for (int i = 0; i < NUM_DEPARTMENTS; i++)
+    for (i = 0; i < NUM_DEPARTMENTS; i++)
     {
         printf("\nDepartment: %s\n", departments[i]);
 
@@ -118,8 +115,36 @@ void displayDepartments()
     }
 }
 
+void displayExceededDepartments(void)
+{
+    int i;
+    int found = 0;
+    float amountExceeded;
 
-void budgetManagement()
+    printf("\n--- DEPARTMENTS OVER BUDGET ---\n");
+
+    for (i = 0; i < NUM_DEPARTMENTS; i++)
+    {
+        if (budgets[i] > 0 && expenditures[i] > budgets[i])
+        {
+            amountExceeded = expenditures[i] - budgets[i];
+
+            printf("\nDepartment: %s\n", departments[i]);
+            printf("Allocated Budget: N$%.2f\n", budgets[i]);
+            printf("Expenditure: N$%.2f\n", expenditures[i]);
+            printf("Amount Exceeded: N$%.2f\n", amountExceeded);
+
+            found = 1;
+        }
+    }
+
+    if (found == 0)
+    {
+        printf("No departments have exceeded their budget.\n");
+    }
+}
+
+void budgetManagement(void)
 {
     int choice;
 
@@ -130,7 +155,8 @@ void budgetManagement()
         printf("============================\n");
         printf("1. Enter Department Finances\n");
         printf("2. Display All Departments\n");
-        printf("3. Return to Main Menu\n");
+        printf("3. Display Departments Over Budget\n");
+        printf("4. Return to Main Menu\n");
 
         printf("Enter choice: ");
         scanf("%d", &choice);
@@ -146,19 +172,16 @@ void budgetManagement()
                 break;
 
             case 3:
-                printf("Exiting Budget Management...\n");
+                displayExceededDepartments();
+                break;
+
+            case 4:
+                printf("Returning to Main Menu...\n");
                 break;
 
             default:
                 printf("Invalid choice.\n");
         }
 
-    } while (choice != 3);
-}
-
-int main()
-{
-    budgetManagement();
-
-    return 0;
+    } while (choice != 4);
 }
