@@ -1,0 +1,88 @@
+Data Definitions
+ CONST INT MAX_ASSETS = 100
+
+ STRUCT ASSETS
+  INT assetID
+  STRING assetName
+  String assetType
+  REAL purchaseValue
+  STRING department
+  STRING condition
+ END STRUCT
+
+Add Assets
+ FUNCTION addAssets(Asset assets[], INT assetCount)
+  IF assetCount >= MAX_ASSETS THEN
+    DISPLAY "Asset register is full"
+    RETURN
+  END IF
+
+  DISPLAY "Enter Asset ID"
+  INPUT assets[assetCount].assetID
+
+  REPEAT
+    DISPLAY "Enter Asset name"
+    INPUT assets[assetsCount].assetName
+  UNTIL assetName is not empty
+
+  REPEAT
+    DISPLAY "Enter Asset type"
+    INPUT assets[assetsCount].assetType
+  UNTIL assetType is not empty
+
+  REPEAT
+    DISPLAY "Enter purchase value"
+    INPUT assets[assetCount].purchaseValue
+  UNTIL purchaseValue > 0
+
+  REPEAT
+    DISPLAY "Enter department"
+    INPUT assets[assetCount].department
+  UNTIL department is not empty
+
+  REPEAT 
+    DISPLAY "Enter condition"
+    INPUT assets[assetCount].condition
+  UNTIL comdition is not empty
+
+  assetCount = assetCount + 1
+
+  DISPLAY "Asset added sucessfully
+
+ END FUNCTION
+
+Display Assets
+ FUNCTION displayAssets(CONST Asset assets[], INT assetCount)
+  IF assetCount = 0 THEN
+    DISPLAY "No assets have been registered"
+    RETURN
+  END IF
+
+  DECLARE INT searchID
+  DECLARE INT i
+  DECLARE BOOLEAN found = FALSE
+
+  DISPLAY "Enter asset ID to search"
+  INPUT searchID
+
+  FOR INT i = 0 TO assetCount - 1
+     IF assets[i].assetID = searchID THEN
+       DISPLAY "Asset found"
+       DISPLAY assets[i].assetID
+       DISPLAY assets[i].assetName
+       DISPLAY assets[i].assetType
+       DISPLAY assets[i].purchaseValue
+       DISPLAY assets[i].department
+       DISPLAY assets[i].condition
+
+       found = TRUE
+       BREAK
+     END IF
+   END FOR
+   IF found = FALSE THEN
+     DISPLAY "Asset not found"
+   END IF
+ END FUNCTION
+
+
+
